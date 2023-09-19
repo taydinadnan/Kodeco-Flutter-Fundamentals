@@ -80,7 +80,7 @@ class _GamePageState extends State<GamePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Hello there!"),
-          content: const Text("This is my first pop-up!"),
+          content: Text('The slider\'s value is ${_model.current}'),
           actions: [
             okButton,
           ],
