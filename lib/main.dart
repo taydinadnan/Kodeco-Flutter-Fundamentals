@@ -75,7 +75,7 @@ class _GamePageState extends State<GamePage> {
     const maximumScore = 100;
 
     ///calculate the difference with abs(absolute value)
-    var difference = (_model.target - _model.current).abs();
+    var difference = _differenceAmount();
 
     ///calculate the value with if statement
     // int difference;
@@ -88,6 +88,23 @@ class _GamePageState extends State<GamePage> {
     // }
     return maximumScore - difference;
   }
+
+  String _alertTitle() {
+    var difference = _differenceAmount();
+    String title;
+    if (difference == 0) {
+      title = 'Perfect!';
+    } else if (difference < 5) {
+      title = 'You almost had it!';
+    } else if (difference <= 10) {
+      title = 'Not bad.';
+    } else {
+      title = 'Are you even trying?';
+    }
+    return title;
+  }
+
+  int _differenceAmount() => (_model.target - _model.current).abs();
 
   void _showAlert(BuildContext context) {
     var okButton = TextButton(
@@ -104,7 +121,7 @@ class _GamePageState extends State<GamePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Hello there!"),
+          title: Text(_alertTitle()),
           content: Text('The slider\'s value is ${_model.current}.\n'
               'You scored ${_pointsForCurrentRound()} points this round.'),
           actions: [
