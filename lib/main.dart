@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bullseye/control.dart';
 import 'package:bullseye/game_model.dart';
 import 'package:bullseye/prompt.dart';
@@ -38,7 +40,7 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    _model = GameModel(50);
+    _model = GameModel(Random().nextInt(100) + 1);
   }
 
   @override
@@ -48,7 +50,7 @@ class _GamePageState extends State<GamePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Prompt(targetValue: 100),
+            Prompt(targetValue: _model.target),
             Control(model: _model),
             TextButton(
               onPressed: () {
