@@ -1,5 +1,6 @@
 import 'package:bullseye/control.dart';
 import 'package:bullseye/prompt.dart';
+import 'package:bullseye/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,6 +49,10 @@ class _GamePageState extends State<GamePage> {
                 'Hit Me!',
                 style: TextStyle(color: Colors.blue),
               ),
+            ),
+            const Score(
+              totalScore: 0,
+              round: 1,
             )
           ],
         ),
