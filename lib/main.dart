@@ -97,6 +97,7 @@ class _GamePageState extends State<GamePage> {
           setState(() {
             _model.totalScore += _pointsForCurrentRound();
             _model.target = Random().nextInt(100) + 1;
+            _model.round += 1;
           });
         });
     showDialog(
