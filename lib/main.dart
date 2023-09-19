@@ -72,21 +72,15 @@ class _GamePageState extends State<GamePage> {
   }
 
   int _pointsForCurrentRound() {
+    var bonus = 0;
     const maximumScore = 100;
-
-    ///calculate the difference with abs(absolute value)
     var difference = _differenceAmount();
-
-    ///calculate the value with if statement
-    // int difference;
-    // if (_model.current > _model.target) {
-    //   difference = _model.current - _model.target;
-    // } else if (_model.target > _model.current) {
-    //   difference = _model.target - _model.current;
-    // } else {
-    //   difference = 0;
-    // }
-    return maximumScore - difference;
+    if (difference == 0) {
+      bonus = 100;
+    } else if (difference == 1) {
+      bonus = 50;
+    }
+    return maximumScore - difference + bonus;
   }
 
   String _alertTitle() {
