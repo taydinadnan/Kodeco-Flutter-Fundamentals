@@ -1,4 +1,5 @@
 import 'package:bullseye/control.dart';
+import 'package:bullseye/game_model.dart';
 import 'package:bullseye/prompt.dart';
 import 'package:bullseye/score.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,14 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late GameModel _model;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = GameModel(50);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +49,7 @@ class _GamePageState extends State<GamePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Prompt(targetValue: 100),
-            const Control(),
+            Control(model: _model),
             TextButton(
               onPressed: () {
                 _showAlert(context);
@@ -50,9 +59,9 @@ class _GamePageState extends State<GamePage> {
                 style: TextStyle(color: Colors.blue),
               ),
             ),
-            const Score(
-              totalScore: 0,
-              round: 1,
+            Score(
+              totalScore: _model.totalScore,
+              round: _model.round,
             )
           ],
         ),
