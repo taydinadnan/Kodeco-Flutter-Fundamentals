@@ -5,6 +5,7 @@ import 'package:bullseye/game_model.dart';
 import 'package:bullseye/hit_me_button.dart';
 import 'package:bullseye/prompt.dart';
 import 'package:bullseye/score.dart';
+import 'package:bullseye/score_list.dart';
 import 'package:bullseye/styled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,7 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   late GameModel _model;
+  List<int> roundScores = [];
 
   @override
   void initState() {
@@ -65,8 +67,44 @@ class _GamePageState extends State<GamePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 48.0, bottom: 32.0),
-                child: Prompt(targetValue: _model.target),
+                padding: const EdgeInsets.only(top: 35.0, bottom: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        StyledButton(
+                          text: "Score List",
+                          icon: Icons.sports_score_sharp,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ScoreList(
+                                  roundedScores: roundScores,
+                                  onlyTopScoresVisible: false,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Prompt(targetValue: _model.target),
+                    roundScores.isEmpty
+                        ? const Text("No Score!")
+                        : Positioned(
+                            top: 0,
+                            child: Container(
+                              height: 120,
+                              width: 100,
+                              child: ScoreList(
+                                roundedScores: roundScores,
+                                onlyTopScoresVisible: true,
+                              ).scoreList(),
+                            )),
+                  ],
+                ),
               ),
               Control(model: _model),
               Padding(
@@ -84,7 +122,7 @@ class _GamePageState extends State<GamePage> {
                   round: _model.round,
                   onStartOver: _startNewGame,
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -133,9 +171,12 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _showAlert(BuildContext context) {
+    var pointsForCurrentRound = _pointsForCurrentRound();
+    roundScores.add(pointsForCurrentRound);
     var okButton = StyledButton(
         icon: Icons.close,
         onPressed: () {
+          print(roundScores);
           Navigator.of(context).pop();
           setState(() {
             _model.totalScore += _pointsForCurrentRound();
